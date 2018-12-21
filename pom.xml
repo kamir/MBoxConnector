@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.cloudera</groupId>
+    <artifactId>MBoxConnector</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <dependencies>
+        
+        <dependency>
+            <groupId>org.apache.james</groupId>
+            <artifactId>apache-mime4j-dom</artifactId>
+            <version>0.7.2</version>
+            <type>jar</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+   
+        <dependency>
+            <groupId>gnu</groupId>
+            <artifactId>mbox</artifactId>
+            <version>0.1</version>
+            <type>jar</type>
+        </dependency>
+   
+   
+    </dependencies>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
+    </properties>
+    
+    <repositories>
+            <repository>
+            <id>project-repo</id>
+            <url>file://${project.basedir}/repo</url>
+        </repository>
+        <repository>
+            <id>my-repo2</id>
+            <name>james</name>
+            <url>http://repo1.maven.org/maven2/org/apache/james/</url>
+        </repository>
+    </repositories>
+    <name>MBoxConnector</name>
+    <description>The MBoxConnector allows us to connect to MBox file, stored on a personal computer, on a mail server, or after migration
+        to the data lake, on a Hadoop cluster. We can use it to pipe mails into Apache Spark Streaming or Cloudera Search for real time analysis
+        or Near Realt Time analytics.
+        A HadoopInputFormat allows us to load a mbox file directly into spark. The simple MailReader gives us a mail as a byte array, as stored in the 
+        mbox, but advanced parsing and metadata extraction can be implemented in this layer. 
+        An alternative is using Apache Tika, and als Morphlines.</description>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+        
+                <executions>
+                    <execution>
+                        <id>make-MBC-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>    
+                            <archive>
+                                <manifest>
+                                    <mainClass>com.cloudera.mboxloader.MBoxReaderApp</mainClass>
+                                </manifest>
+                            </archive>     
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <appendAssemblyId>true</appendAssemblyId>
+                            <finalName>MBC-0.1</finalName>
+                 
+                            <attach>true</attach>
+                        </configuration>
+                    </execution>  
+                    
+                    
+                </executions>
+            </plugin>
+            
+        </plugins>
+    </build>
+
+        
+            
+</project>
